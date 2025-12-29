@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Count of Monte Cristo - Study Resources</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        header::before {
+            content: "⚔️";
+            font-size: 100px;
+            position: absolute;
+            top: 10px;
+            left: 30px;
+            opacity: 0.2;
+        }
+
+        header::after {
+            content: "🏰";
+            font-size: 100px;
+            position: absolute;
+            top: 10px;
+            right: 30px;
+            opacity: 0.2;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            font-style: italic;
+            opacity: 0.95;
+        }
+
+        .intro {
+            padding: 40px;
+            background: #f9f5f0;
+            border-bottom: 3px solid #8B4513;
+        }
+
+        .intro h2 {
+            color: #8B4513;
+            margin-bottom: 15px;
+            font-size: 2em;
+        }
+
+        .intro p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .resources {
+            padding: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .resource-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f8f8 100%);
+            border: 2px solid #8B4513;
+            border-radius: 10px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(139,69,19,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .resource-card:hover::before {
+            left: 100%;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(139,69,19,0.3);
+        }
+
+        .resource-card h3 {
+            color: #8B4513;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            font-size: 1.8em;
+        }
+
+        .resource-card p {
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .download-btn:hover {
+            background: linear-gradient(135deg, #654321 0%, #8B4513 100%);
+            transform: scale(1.05);
+        }
+
+        .download-btn:active {
+            transform: scale(0.98);
+        }
+
+        footer {
+            background: #2c2c2c;
+            color: white;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.95em;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        .credits {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+
+        .credits h3 {
+            color: #d4a574;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .resources-section {
+            background: #f0ebe5;
+            padding: 40px;
+            border-top: 3px solid #8B4513;
+        }
+
+        .resources-section h2 {
+            color: #8B4513;
+            text-align: center;
+            font-size: 2em;
+            margin-bottom: 25px;
+        }
+
+        .resource-list {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .resource-list h3 {
+            color: #8B4513;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .resource-list ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .resource-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .resource-list li:before {
+            content: "📚";
+            position: absolute;
+            left: 0;
+        }
+
+        .resource-list a {
+            color: #2a5298;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .resource-list a:hover {
+            color: #8B4513;
+            text-decoration: underline;
+        }
+
+        .highlight {
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .resources {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>The Count of Monte Cristo</h1>
+            <p class="subtitle">By Alexandre Dumas</p>
+            <p style="margin-top: 15px; font-size: 1em;">English Literature Project Resources</p>
+        </header>
+
+        <div class="intro">
+            <h2>📚 Project Overview</h2>
+            <p>Welcome to this comprehensive study resource for <span class="highlight">The Count of Monte Cristo</span>, one of literature's greatest tales of betrayal, imprisonment, and revenge.</p>
+            <p>This collection includes detailed plot summaries, chapter analyses, author biography, and thoughtful responses to key thematic questions.</p>
+            <p><strong>Click on any card below to download the PDF resource.</strong></p>
+        </div>
+
+        <div class="resources">
+            <div class="resource-card" onclick="generatePlotPDF()">
+                <h3><span class="icon">📖</span> Plot Summary</h3>
+                <p>A comprehensive overview of the entire story of The Count of Monte Cristo, covering Edmond Dantès' imprisonment, transformation, and quest for revenge.</p>
+                <button class="download-btn">Download PDF</button>
+            </div>
+
+            <div class="resource-card" onclick="generateChaptersPDF()">
+                <h3><span class="icon">📝</span> Chapter Summaries</h3>
+                <p>Detailed summaries of all six chapters from the first term, including key events, character development, and important plot points.</p>
+                <button class="download-btn">Download PDF</button>
+            </div>
+
+            <div class="resource-card" onclick="generateBiographyPDF()">
+                <h3><span class="icon">✍️</span> Author Biography</h3>
+                <p>An in-depth look at Alexandre Dumas' life, his mixed-race heritage, literary career, and the historical context of his masterpiece.</p>
+                <button class="download-btn">Download PDF</button>
+            </div>
+
+            <div class="resource-card" onclick="generateQuestionsPDF()">
+                <h3><span class="icon">💭</span> Essay Questions</h3>
+                <p>Analytical responses to three critical questions about the Château d'If, Abbé Faria's role, and Dantès' escape plan.</p>
+                <button class="download-btn">Download PDF</button>
+            </div>
+        </div>
+
+        <div class="resources-section">
+            <h2>📖 Sources & References</h2>
+            <div class="resource-list">
+                <h3>Primary Source</h3>
+                <ul>
+                    <li>Dumas, Alexandre. <em>The Count of Monte Cristo</em> (1844-1846)</li>
+                </ul>
+
+                <h3>Biography Resources</h3>
+                <ul>
+                    <li>Reiss, Tom. <em>The Black Count: Glory, Revolution, Betrayal, and the Real Count of Monte Cristo</em> (2012)</li>
+                    <li>Schopp, Claude. <em>Alexandre Dumas: Genius of Life</em> (1988)</li>
+                    <li>Britannica Online Encyclopedia - Alexandre Dumas Biography</li>
+                    <li>Stanford University - Alexandre Dumas Historical Archive</li>
+                </ul>
+
+                <h3>Literary Analysis</h3>
+                <ul>
+                    <li>SparkNotes - <em>The Count of Monte Cristo</em> Study Guide</li>
+                    <li>CliffsNotes - Complete Summary and Analysis</li>
+                    <li>Literary Devices - Symbolism in <em>The Count of Monte Cristo</em></li>
+                    <li>JSTOR - Academic articles on Dumas and his works</li>
+                </ul>
+
+                <h3>Historical Context</h3>
+                <ul>
+                    <li>History of Château d'If - Official French Historical Monuments</li>
+                    <li>19th Century French Literature - Oxford Literary History</li>
+                    <li>The Romantic Movement in French Literature</li>
+                </ul>
+
+                <h3>Online Resources</h3>
+                <ul>
+                    <li><a href="https://www.gutenberg.org" target="_blank">Project Gutenberg</a> - Free eBook versions</li>
+                    <li><a href="https://www.britannica.com" target="_blank">Encyclopedia Britannica</a> - Author biography</li>
+                    <li><a href="https://www.sparknotes.com" target="_blank">SparkNotes</a> - Study guides and analysis</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>The Count of Monte Cristo</strong> - English Literature Project</p>
+            <p>All content based on Alexandre Dumas' classic novel</p>
+            
+            <div class="credits">
+                <h3>Project Credits</h3>
+                <p><strong>Developed by:</strong> Mohamed Abdelaziz (DsMans0021)</p>
+                <p><strong>GitHub:</strong> <a href="https://github.com/DsMans0021" target="_blank" style="color: #d4a574;">@DsMans0021</a></p>
+                <p style="margin-top: 10px; font-size: 0.9em;">Educational resource created for English literature studies</p>
+            </div>
+            
+            <p style="margin-top: 15px; font-size: 0.85em; opacity: 0.8;">© 2025 - Educational Resources</p>
+        </footer>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        function addHeader(doc, title) {
+            doc.setFillColor(139, 69, 19);
+            doc.rect(0, 0, 210, 40, 'F');
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(24);
+            doc.setFont(undefined, 'bold');
+            doc.text('The Count of Monte Cristo', 105, 20, { align: 'center' });
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'normal');
+            doc.text(title, 105, 32, { align: 'center' });
+            doc.setTextColor(0, 0, 0);
+        }
+
+        function addFooter(doc, pageNum) {
+            doc.setFontSize(9);
+            doc.setTextColor(100, 100, 100);
+            doc.text(`Page ${pageNum}`, 105, 285, { align: 'center' });
+            doc.text('Prepared by: Mohamed Abdelaziz (DsMans0021)', 105, 290, { align: 'center' });
+        }
+
+        function wrapText(doc, text, x, y, maxWidth, lineHeight) {
+            const lines = doc.splitTextToSize(text, maxWidth);
+            lines.forEach((line, index) => {
+                doc.text(line, x, y + (index * lineHeight));
+            });
+            return lines.length * lineHeight;
+        }
+
+        function generatePlotPDF() {
+            const doc = new jsPDF();
+            addHeader(doc, 'Plot Summary');
+            
+            let y = 55;
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Complete Plot Summary', 20, y);
+            
+            y += 10;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            
+            const sections = [
+                {
+                    title: 'The Beginning - Betrayal and Imprisonment',
+                    content: 'In 1815, young sailor Edmond Dantès returns to Marseille as first mate of the ship Pharaon. His employer, Monsieur Morrel, plans to promote him to captain, and he is engaged to the beautiful Mercedes. However, three jealous men conspire against him: Danglars (the ship\'s accountant who wants the captaincy), Fernand Mondego (Mercedes\' cousin who loves her), and Caderousse (a jealous neighbor). They write an anonymous letter accusing Dantès of being a Bonapartist traitor. On his wedding day, Dantès is arrested and brought before the deputy prosecutor Villefort, who discovers that the letter Dantès carried was addressed to Villefort\'s own father, a Bonapartist. To protect his career and upcoming marriage into a royalist family, Villefort destroys the letter and has Dantès imprisoned in the notorious Château d\'If.'
+                },
+                {
+                    title: 'The Prison Years - Education and Discovery',
+                    content: 'Dantès spends fourteen years in the Château d\'If, initially consumed by despair and thoughts of suicide. After several years, he meets fellow prisoner Abbé Faria, an Italian priest who has been tunneling toward freedom. The Abbé becomes Dantès\' mentor, educating him in languages, sciences, philosophy, and history, transforming him from a simple sailor into a sophisticated gentleman. Faria also helps Dantès understand who betrayed him and why. Most importantly, the Abbé reveals the location of an immense treasure hidden on the island of Monte Cristo, belonging to the Spada family. When Faria dies from a stroke, Dantès takes his place in the burial shroud. Guards throw the body into the sea, and Dantès escapes by cutting himself free and swimming to safety.'
+                },
+                {
+                    title: 'The Treasure and Transformation',
+                    content: 'After his escape, Dantès joins a crew of smugglers and eventually makes his way to Monte Cristo island, where he discovers Faria\'s treasure - an enormous fortune in gold, jewels, and precious stones. He considers this wealth a gift from God, meant to enable him to reward those who helped him and punish those who destroyed his life. With his newfound wealth and education, Dantès reinvents himself as the Count of Monte Cristo, a mysterious nobleman of seemingly unlimited resources and knowledge.'
+                }
+            ];
+
+            sections.forEach(section => {
+                if (y > 240) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(12);
+                doc.text(section.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, section.content, 20, y, 170, 6);
+                y += height + 8;
+            });
+
+            // Continue on next page
+            doc.addPage();
+            y = 20;
+
+            const sections2 = [
+                {
+                    title: 'Return to Society - The Revenge Begins',
+                    content: 'Ten years after his escape, the Count arrives in Paris and begins ingratiating himself into high society. He befriends Albert de Morcerf, the son of Fernand (now Count de Morcerf) and Mercedes, by saving him from bandits in Rome. Through Albert, he gains access to Parisian society and to his enemies, all of whom are now wealthy and powerful. Fernand has become a count and married Mercedes. Danglars is a wealthy baron and banker. Villefort is a powerful prosecutor. The Count also discovers Caderousse running a failing inn.'
+                },
+                {
+                    title: 'The Execution of Revenge',
+                    content: 'The Count orchestrates elaborate schemes to destroy each of his enemies: Fernand is publicly exposed as a traitor who betrayed Ali Pasha for money. His reputation destroyed, Mercedes and Albert leave him, and he commits suicide. Danglars is manipulated through financial schemes. The Count bankrupts him by manipulating telegraph messages and markets, leaving him penniless and forced to flee. Villefort suffers the cruelest fate. The Count reveals Villefort\'s affair with Baroness Danglars and the existence of their illegitimate son. Worse, Villefort\'s wife begins poisoning family members to secure her son\'s inheritance. When Villefort threatens her, she poisons herself and their son. Villefort goes mad from grief and guilt. Caderousse receives a valuable diamond as reward for revealing the conspiracy, but his greed leads to his death during a robbery.'
+                },
+                {
+                    title: 'Redemption and New Beginnings',
+                    content: 'Before leaving Marseille, the Count anonymously saves his old employer Morrel from financial ruin. He also saves Morrel\'s son Maximilian\'s fiancée, Valentine Villefort, from being poisoned by giving her a drug that makes her appear dead. He lets Maximilian believe she is dead for a month, teaching him the depths of despair before revealing her alive, allowing him to experience the heights of joy. Throughout his revenge, the Count struggles with whether his actions are justice or mere vengeance. As innocent people suffer from his schemes, he questions whether he has overstepped his role as an instrument of divine justice. In the end, he finds redemption and happiness by allowing himself to love Haydée, a young woman he had rescued from slavery. Having completed his mission, the Count leaves Paris with Haydée, giving his blessing to Maximilian and Valentine, and leaving them a message of hope: "Wait and Hope."'
+                }
+            ];
+
+            sections2.forEach(section => {
+                if (y > 240) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(12);
+                doc.text(section.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, section.content, 20, y, 170, 6);
+                y += height + 8;
+            });
+
+            addFooter(doc, doc.internal.getNumberOfPages());
+            doc.save('Count_of_Monte_Cristo_Plot_Summary.pdf');
+        }
+
+        function generateChaptersPDF() {
+            const doc = new jsPDF();
+            addHeader(doc, 'Chapter Summaries - First Term');
+            
+            let y = 55;
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Chapters 1-6: Summaries', 20, y);
+            
+            y += 10;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            
+            const chapters = [
+                {
+                    num: 'Chapter 1',
+                    title: 'Marseilles - The Arrival',
+                    content: 'The story begins on February 24, 1815, as the ship Pharaon arrives in Marseille harbor. The ship\'s owner, Monsieur Morrel, learns from nineteen-year-old first mate Edmond Dantès that Captain Leclère died during the voyage and Dantès took command. During the journey, they stopped at the island of Elba at the dying captain\'s request. Morrel, impressed by Dantès\' capability and leadership, decides to promote him to captain despite the jealousy it might cause among other crew members, particularly Danglars, the ship\'s accountant. This chapter establishes Dantès as a capable, honest young man on the verge of achieving his dreams of love and professional success.'
+                },
+                {
+                    num: 'Chapter 2',
+                    title: 'Father and Son',
+                    content: 'Dantès rushes to visit his elderly father, whom he hasn\'t seen in three months. He discovers his father in a state of poverty and near-starvation. Dantès learns that his neighbor Caderousse took most of his father\'s money in payment of a debt that Dantès thought his father had already paid. Dantès gives his father money and promises to remedy the situation. He also shares his joy about his upcoming promotion to captain and his plans to marry his fiancée Mercedes. The chapter highlights Dantès\' devotion to his father and establishes the happiness that will soon be destroyed. It also introduces Caderousse as someone who has wronged Dantès\' family, though in a relatively minor way compared to the betrayals to come.'
+                },
+                {
+                    num: 'Chapter 3',
+                    title: 'The Catalans',
+                    content: 'Dantès travels to the village of the Catalans to see his fiancée Mercedes, a beautiful young Catalan woman. He finds her with her cousin Fernand Mondego, who is deeply in love with her. When Dantès arrives, Mercedes\' joy at seeing him is evident, making Fernand intensely jealous. Dantès announces his promotion to captain, and the couple plans to marry immediately. Fernand is devastated and begs Mercedes not to marry Dantès, but she remains committed to her fiancé. After Dantès leaves, Fernand stays with Mercedes, consumed by jealousy and despair. This chapter establishes the love triangle and Fernand\'s motive for wanting to destroy Dantès. The contrast between Dantès\' honest happiness and Fernand\'s dark jealousy foreshadows the tragedy to come.'
+                }
+            ];
+
+            chapters.forEach(chapter => {
+                if (y > 230) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(13);
+                doc.text(chapter.num + ': ' + chapter.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, chapter.content, 20, y, 170, 6);
+                y += height + 10;
+            });
+
+            // Add remaining chapters on new page
+            doc.addPage();
+            y = 20;
+
+            const chapters2 = [
+                {
+                    num: 'Chapter 4',
+                    title: 'Conspiracy',
+                    content: 'This pivotal chapter reveals the conspiracy that will destroy Dantès\' life. Danglars, jealous of Dantès\' promotion, and Fernand, desperate to prevent Dantès from marrying Mercedes, meet at an inn. Caderousse, the neighbor who took money from Dantès\' father, is also present. Danglars cynically suggests writing an anonymous letter denouncing Dantès as a Bonapartist agent - a serious accusation during this period of political upheaval. While drunk, Caderousse half-heartedly objects but does nothing to stop them. Fernand, initially reluctant, eventually agrees. Danglars writes the denunciation with his left hand to disguise his handwriting, revealing that Dantès stopped at Elba and carries a letter from Napoleon. The conspirators post the letter to the crown prosecutor, sealing Dantès\' fate. This chapter is crucial in showing how envy and jealousy, combined with a moment of drunken callousness, can have devastating consequences.'
+                },
+                {
+                    num: 'Chapter 5',
+                    title: 'The Marriage Feast',
+                    content: 'On Dantès\' wedding day, the celebration begins at a local inn with his father, Mercedes, friends, and crew members present. Despite the festive atmosphere, there are ominous undertones - Caderousse is drunk and morose, Danglars looks pleased with himself, and Fernand appears devastated. The celebration is at its height when commissaries arrive and arrest Dantès on charges of conspiracy against the king. Dantès is shocked and protests his innocence, insisting there must be a mistake. Mercedes faints, and Dantès\' father is stricken with grief. Dantès is taken away, still in his wedding clothes, while the guests disperse in shock and fear. This chapter marks the destruction of Dantès\' happiness and the beginning of his suffering. The cruel timing of the arrest - on his wedding day - emphasizes the tragedy of his situation.'
+                },
+                {
+                    num: 'Chapter 6',
+                    title: 'The Deputy Procureur Du Roi',
+                    content: 'Dantès is brought before Villefort, the deputy crown prosecutor, who is preparing for his own engagement celebration. Initially, Villefort seems sympathetic to Dantès, recognizing his innocence. However, when Dantès mentions the letter he was asked to deliver by the dying Captain Leclère, Villefort examines it and discovers it is addressed to his own father, Noirtier, a well-known Bonapartist. Villefort realizes that if this letter becomes public knowledge, it could ruin his career and his upcoming marriage into an influential Royalist family. In a moment that seals Dantès\' fate, Villefort burns the letter and tells Dantès he will be detained "for a while" at the Château d\'If for his own protection. Dantès naively trusts Villefort\'s promise and believes he will soon be released. This chapter reveals Villefort\'s duplicity and shows how Dantès\' innocent involvement in political intrigue makes him a victim of circumstances beyond his control. Villefort\'s decision to sacrifice an innocent man to protect his own ambitions sets the stage for Dantès\' transformation and eventual revenge.'
+                }
+            ];
+
+            chapters2.forEach(chapter => {
+                if (y > 220) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(13);
+                doc.text(chapter.num + ': ' + chapter.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, chapter.content, 20, y, 170, 6);
+                y += height + 10;
+            });
+
+            addFooter(doc, doc.internal.getNumberOfPages());
+            doc.save('Count_of_Monte_Cristo_Chapter_Summaries.pdf');
+        }
+
+        function generateBiographyPDF() {
+            const doc = new jsPDF();
+            addHeader(doc, 'Alexandre Dumas - Biography');
+            
+            let y = 55;
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Alexandre Dumas (1802-1870)', 20, y);
+            
+            y += 10;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            
+            const sections = [
+                {
+                    title: 'Early Life and Family Heritage',
+                    content: 'Alexandre Dumas was born on July 24, 1802, in Villers-Cotterêts, a small town in northern France. His full birth name was Alexandre Dumas Davy de la Pailleterie. Dumas came from a remarkable and diverse background that profoundly influenced his life and work. His father, General Thomas-Alexandre Dumas, was born in the French colony of Saint-Domingue (now Haiti) to a French nobleman, the Marquis Alexandre Antoine Davy de la Pailleterie, and an enslaved woman of Afro-Caribbean descent named Marie-Cessette Dumas. Thomas-Alexandre took his mother\'s surname when he enlisted in the French military, and this became the family name. General Dumas had an extraordinary military career, rising to become a general in Napoleon\'s army by age 31, making him the first person of African descent to reach such a high rank in a European army. He was known for his exceptional bravery and military skill, earning the nickname "The Black Devil" from his enemies.'
+                },
+                {
+                    title: 'Childhood Struggles',
+                    content: 'Alexandre\'s childhood was marked by financial hardship after his father\'s death in 1806, when Alexandre was only four years old. General Dumas had fallen out with Napoleon over disagreements about the Egypt campaign and had been imprisoned for nearly two years, which damaged his health. He died shortly after his release, leaving the family in dire financial straits with no military pension. Alexandre\'s mother, Marie Louise Labouret, struggled to provide for her son. Despite their poverty, she worked hard to ensure he received some education. However, Alexandre\'s formal schooling was limited and sporadic. He attended Abbé Grégoire\'s school but eventually had to leave to help support the family. At age fourteen, he began working as a clerk for a local notary. Despite his limited formal education, young Alexandre was an avid reader and developed a passionate interest in theater and literature.'
+                }
+            ];
+
+            sections.forEach(section => {
+                if (y > 235) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(12);
+                doc.text(section.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, section.content, 20, y, 170, 6);
+                y += height + 8;
+            });
+
+            doc.addPage();
+            y = 20;
+
+            const sections2 = [
+                {
+                    title: 'Move to Paris and Early Career',
+                    content: 'In 1822, at age twenty, Dumas moved to Paris to pursue his literary dreams. Through family connections and his father\'s former military reputation, he secured a position as a scribe in the household of Louis-Philippe, Duke of Orléans, who would later become King of France. This position provided Dumas with financial stability and, more importantly, access to the libraries and cultural life of Paris. While working for the Duke, Dumas began writing articles for magazines and plays for the theater. He immersed himself in the literary and artistic circles of Paris, befriending actors and poets of the Romantic movement. His natural charisma, wit, and storytelling ability made him popular in these circles despite his mixed-race heritage, though he still faced racism throughout his life.'
+                },
+                {
+                    title: 'Literary Success and the Romantic Movement',
+                    content: 'Dumas\' breakthrough came in 1829 when his play "Henry III and His Court" was produced to great acclaim when he was 27 years old. The play was a triumph of the Romantic movement, featuring historical drama, passion, and theatrical spectacle. His second play, "Christine" (1830), was equally successful. These theatrical successes gave Dumas enough income to become a full-time writer. In 1830, Dumas participated in the July Revolution that overthrew King Charles X and installed his former employer, the Duke of Orléans, as King Louis-Philippe. Throughout the 1830s, Dumas continued writing successful plays while also beginning to write novels. Life in France during this period was politically unstable, with frequent riots and upheavals, but the end of press censorship and an improving economy created ideal conditions for popular literature to flourish.'
+                },
+                {
+                    title: 'The Historical Novels and Literary Fame',
+                    content: 'In the late 1830s and 1840s, Dumas turned his attention to historical novels, which would become his greatest legacy. He often worked with collaborators, most notably Auguste Maquet, who helped him plot and research his works. Between 1839 and 1841, Dumas compiled "Celebrated Crimes," an eight-volume collection of essays on famous criminals from European history. His most famous works were published in the 1840s as serial novels in newspapers, which had become a popular medium. "The Three Musketeers" was published in 1844, followed immediately by "Twenty Years After" and later "The Vicomte de Bragelonne." Also in 1844-1846, he published "The Count of Monte Cristo" serially in the Journal des Débats. The novel became an immediate sensation, with readers eagerly awaiting each installment.'
+                }
+            ];
+
+            sections2.forEach(section => {
+                if (y > 230) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(12);
+                doc.text(section.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, section.content, 20, y, 170, 6);
+                y += height + 8;
+            });
+
+            doc.addPage();
+            y = 20;
+
+            const sections3 = [
+                {
+                    title: 'Personal Life and Extravagance',
+                    content: 'Dumas lived life as dramatically as his novels. He was known for his extravagant lifestyle, spending money as quickly as he earned it despite his enormous literary output. He had numerous romantic relationships and fathered at least four children, including his son Alexandre Dumas fils, who also became a successful writer, famous for "The Lady of the Camellias." In 1840, Dumas married actress Ida Ferrier, though he continued his affairs with other women. He built an elaborate mansion called the Château de Monte-Cristo near Paris, a Gothic-Renaissance hybrid that reflected his taste for the dramatic. He filled it with friends and hangers-on who took advantage of his generosity. In 1847, he founded the Théâtre Historique to produce his own plays, but the theater went bankrupt in 1850.'
+                },
+                {
+                    title: 'Financial Troubles and Later Years',
+                    content: 'By the 1850s, Dumas faced severe financial problems due to his extravagant spending, failed business ventures, and numerous creditors. He was forced to sell the Château de Monte-Cristo and flee to Belgium in 1851 to escape his debts. Despite these setbacks, Dumas continued writing prolifically, producing historical novels, travel books, and essays. He traveled extensively throughout Europe, Russia, and even visited North Africa. In 1858, he traveled to Russia where he was received enthusiastically. In 1860, he went to Italy where he became involved with Garibaldi\'s movement for Italian unification. He founded a newspaper to support the cause and even participated in some military activities. In his later years, Dumas returned to Paris but never regained his former financial stability or social position. His health began to decline in the late 1860s, likely due to a series of strokes.'
+                },
+                {
+                    title: 'Death and Legacy',
+                    content: 'Alexandre Dumas died on December 5, 1870, at his son\'s home in Puys, near Dieppe, at the age of 68. He died during the Franco-Prussian War while Paris was under siege. Due to the circumstances of his death and his financial troubles, his funeral was modest. However, his literary legacy was already secure. During his lifetime, Dumas wrote approximately 100,000 pages, including novels, plays, magazine articles, and travel books. His works have been translated into nearly 100 languages and adapted countless times for film, television, and theater. In 2002, on the bicentennial of his birth, Dumas was reinterred in the Panthéon in Paris, France\'s highest honor for distinguished French citizens, with a ceremony attended by President Jacques Chirac. His coffin was carried by four men dressed as musketeers, a fitting tribute to his most famous creation. Dumas\' influence on popular literature cannot be overstated. He essentially created the template for the modern adventure novel, combining historical settings with fast-paced action, romance, and larger-than-life characters. His works continue to captivate readers and inspire writers around the world, cementing his place as one of the greatest storytellers in literary history.'
+                }
+            ];
+
+            sections3.forEach(section => {
+                if (y > 220) {
+                    doc.addPage();
+                    y = 20;
+                }
+                doc.setFont(undefined, 'bold');
+                doc.setFontSize(12);
+                doc.text(section.title, 20, y);
+                y += 7;
+                doc.setFont(undefined, 'normal');
+                doc.setFontSize(11);
+                const height = wrapText(doc, section.content, 20, y, 170, 6);
+                y += height + 8;
+            });
+
+            addFooter(doc, doc.internal.getNumberOfPages());
+            doc.save('Alexandre_Dumas_Biography.pdf');
+        }
+
+        function generateQuestionsPDF() {
+            const doc = new jsPDF();
+            addHeader(doc, 'Essay Questions & Analysis');
+            
+            let y = 55;
+            doc.setFontSize(16);
+            doc.setFont(undefined, 'bold');
+            doc.text('Critical Analysis Questions', 20, y);
+            
+            y += 15;
+
+            // Question 1
+            doc.setFontSize(13);
+            doc.setFont(undefined, 'bold');
+            doc.text('Question 1: How was the Château d\'If described?', 20, y);
+            doc.text('What does it symbolize?', 20, y + 7);
+            
+            y += 17;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+            
+            let content = 'The Château d\'If is described as a formidable island fortress located about a mile off the coast of Marseille in the Mediterranean Sea. Dumas portrays it as a grim, imposing structure built on a barren rock, surrounded by treacherous waters. The prison is described as having thick stone walls, damp dark cells, and an atmosphere of complete isolation from the outside world. The fortress appears impregnable, with its location making escape virtually impossible - the strong currents and distance from shore meant that even if a prisoner could get out of their cell, they would likely drown attempting to swim to freedom.';
+            let height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'Inside the prison, Dumas describes the conditions as harsh and dehumanizing. The cells are small, dark, and carved into the rock itself. Some prisoners are kept in underground dungeons where no sunlight ever reaches. The isolation is profound - prisoners can go years without seeing another human face besides their jailers. The fortress has a dungeon-like quality, with narrow corridors, heavy iron doors, and an oppressive silence broken only by the sound of waves crashing against the rocks.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.addPage();
+            y = 20;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Symbolism of the Château d\'If:', 20, y);
+            y += 10;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'The Château d\'If serves multiple powerful symbolic functions in the novel. First and foremost, it represents injustice and the arbitrary abuse of power. Dantès is imprisoned there without trial, without charges, and without hope of release - a victim of Villefort\'s corruption and self-interest. The prison symbolizes how innocent people can be destroyed by a corrupt legal system that serves the powerful rather than justice.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'Secondly, the Château d\'If represents transformation and rebirth. It is within these dark walls that the simple sailor Edmond Dantès dies and the Count of Monte Cristo is born. The years of suffering strip away his innocence and idealism, while Abbé Faria\'s education provides him with the knowledge and sophistication he needs for his new identity. The prison becomes a crucible that forges him into something harder, smarter, and more formidable. Like a phoenix rising from ashes, Dantès emerges from his tomb-like imprisonment as an entirely new being.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'The fortress also symbolizes the death of hope and human connection. During his early years there, Dantès experiences complete despair, even contemplating suicide through starvation. The isolation breaks down his sense of self and his connection to humanity. Yet paradoxically, it is also where he finds his most meaningful human connection with the Abbé, suggesting that hope and meaning can be found even in the darkest circumstances.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'Finally, the Château d\'If represents fate and divine providence. Dantès comes to see his imprisonment as part of a larger plan - it was necessary for him to suffer, to be educated by Faria, and to learn of the treasure so that he could become the instrument of God\'s justice. The prison transforms from a place of meaningless suffering into a crucial step in his destiny.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 10;
+
+            // Question 2
+            doc.addPage();
+            y = 20;
+            doc.setFontSize(13);
+            doc.setFont(undefined, 'bold');
+            doc.text('Question 2: Without Abbé Faria there would be', 20, y);
+            doc.text('no Count of Monte Cristo. Discuss.', 20, y + 7);
+            
+            y += 17;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+
+            content = 'This statement is absolutely true - Abbé Faria is the catalyst for Edmond Dantès\' transformation into the Count of Monte Cristo. Without the Abbé, Dantès would have remained a broken, uneducated prisoner who eventually died in the Château d\'If, his potential and his life wasted. The Abbé\'s influence can be understood through several critical contributions he made to Dantès\' transformation.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Salvation from Despair:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'When the Abbé breaks through into Dantès\' cell after years of tunneling, Dantès is on the verge of losing his sanity and has contemplated suicide. The simple act of human contact and conversation saves Dantès from complete mental breakdown. The Abbé gives him something crucial - hope. He shows Dantès that escape is possible, that the future is not completely closed off. Without this intervention, Dantès would likely have died in prison, either through despair-induced illness or deliberate self-starvation.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Intellectual and Cultural Education:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'Perhaps the Abbé\'s most important contribution is the comprehensive education he provides to Dantès over several years. The Abbé teaches him multiple languages including Italian, English, Spanish, and German. He instructs him in mathematics, physics, chemistry, and history. He shares his knowledge of philosophy, literature, and the arts. This education transforms Dantès from a simple, though intelligent, sailor into a sophisticated gentleman capable of moving in the highest circles of European society. Without this education, even if Dantès had escaped and found treasure, he would not have had the refinement, knowledge, or social skills necessary to infiltrate Parisian high society and exact his revenge on his enemies who had all risen to positions of wealth and power.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.addPage();
+            y = 20;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Understanding of Betrayal:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'When Dantès first arrives in prison, he genuinely does not understand why he has been imprisoned or who might be responsible. He is confused and bewildered by his fate. The Abbé, with his wisdom and understanding of human nature, helps Dantès piece together what happened. Through careful questioning and logical deduction, Faria helps Dantès identify his three betrayers - Danglars, Fernand, and Villefort - and understand their motives: professional jealousy, romantic jealousy, and political self-preservation. This knowledge is crucial because it gives Dantès specific targets for his revenge and helps him understand that his suffering was not random or meaningless but the result of deliberate human malice. Without this understanding, Dantès might have escaped prison but not known whom to hold accountable.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('The Treasure and Financial Means:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'The Abbé reveals the existence and location of the enormous Spada treasure hidden on the island of Monte Cristo. This revelation provides Dantès with the financial resources necessary to execute his elaborate plans for revenge. The treasure gives him the wealth to reinvent himself as a mysterious nobleman, to manipulate markets and destroy Danglars financially, to buy information and influence, and to move freely through society. Without this wealth, Dantès would have been just another escaped convict trying to survive, unable to reach or affect the powerful men who had wronged him.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('The Method of Escape:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'Faria\'s death provides the actual mechanism for Dantès\' escape. When the Abbé dies, Dantès conceives the brilliant and desperate plan to take the Abbé\'s place in the burial sack, knowing that bodies from the Château d\'If are thrown into the sea. Without the Abbé\'s death and Dantès\' knowledge of this burial procedure, escape would have remained impossible. The Abbé\'s failed tunnel, his failing health, and finally his death all contribute to Dantès\' freedom.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'In conclusion, Abbé Faria is not merely important to the story - he is absolutely essential to it. He saves Dantès from despair, educates him, helps him understand his betrayal, reveals the treasure, provides the means of escape, and essentially creates the Count of Monte Cristo. The Abbé is like a second father to Dantès, and more - he is his teacher, his savior, and the architect of his transformation. Without Faria, there would be no escape, no treasure, no education, no sophisticated revenge, and therefore no Count of Monte Cristo.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 10;
+
+            // Question 3
+            doc.addPage();
+            y = 20;
+            doc.setFontSize(13);
+            doc.setFont(undefined, 'bold');
+            doc.text('Question 3: Describe Dantès\' escape plan from', 20, y);
+            doc.text('the prison to Monte Cristo', 20, y + 7);
+            
+            y += 17;
+            doc.setFontSize(11);
+            doc.setFont(undefined, 'normal');
+
+            content = 'Dantès\' escape from the Château d\'If to ultimately reaching the island of Monte Cristo is one of the most dramatic and memorable sequences in the novel, showcasing his intelligence, courage, and determination. The escape unfolds in several distinct phases, each requiring different skills and nerve.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('The Substitution Plan:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'When Abbé Faria dies from a stroke, Dantès conceives a desperate and brilliant plan. He knows from the Abbé that when prisoners die in the Château d\'If, their bodies are sewn into burial sacks and thrown into the sea from the cliffs. Dantès decides to take the Abbé\'s place in the burial shroud. He drags the Abbé\'s body to his own cell through the secret tunnel they had dug and arranges it in his bed to look like he is sleeping. Then he returns to the Abbé\'s cell and sews himself into the burial sack, armed with a knife hidden inside. This plan requires perfect timing and incredible nerve - Dantès has to commit to being sewn into a sack and carried through the prison without knowing exactly what will happen next.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('The Terrifying Revelation:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'As the guards carry what they think is the Abbé\'s body, Dantès overhears their conversation and makes a horrifying discovery - instead of being buried at sea as he had assumed, bodies are weighted down with a cannonball tied to their feet and thrown from great height to ensure they sink. This means Dantès will be dropped from a significant height into deep water with a heavy weight attached to his legs. The realization comes too late to change his plan - he is already being carried to his fate.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.addPage();
+            y = 20;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('The Leap and the Sea:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'Dantès is hurled from the cliffs into the Mediterranean Sea. The fall itself is terrifying - he plunges through the air and then into the cold water with tremendous force. The cannonball drags him down rapidly into the dark depths. In this moment of supreme danger, Dantès must remain calm enough to use the knife he has kept hidden inside the sack. While being pulled down by the weight, he saws through the canvas and cuts the rope attaching the cannonball to his feet. He manages to free himself just in time, before the pressure and lack of air would have killed him. The knife, which he had carefully preserved, and his powerful swimming ability save his life.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Swimming to Survival:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'Free of the sack and the weight, Dantès swims powerfully upward and breaks the surface. However, he is far from safe. He is in the open sea at night, far from any safe shore, with the dangerous currents around the Château d\'If threatening to pull him back. He spots a small barren island or rock outcropping (possibly the Island of Tiboulen) and swims desperately toward it, fighting exhaustion and the cold water. He reaches the rocky island and hauls himself out of the water, spending the night there, hidden from view of the prison. This gives him time to recover his strength and consider his next move.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Joining the Smugglers:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'The next day, Dantès spots a smuggling vessel passing nearby. He swims out to it and is rescued by the crew. The smugglers, led by a captain who knew Dantès\' father years ago, welcome him aboard. Dantès invents a story to explain his presence in the waters - he claims he was part of a shipwreck. He joins their crew, proving himself as a capable sailor and quickly becoming a valued member of the team. This period with the smugglers serves several purposes: it provides him with safety, gives him time to regain his strength and readjust to freedom, offers him income and legitimate reason to travel the Mediterranean, and most importantly, allows him to position himself to visit the island of Monte Cristo.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.addPage();
+            y = 20;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Reaching Monte Cristo:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'Dantès carefully engineers an opportunity to visit the island of Monte Cristo. When the smuggling ship needs repairs, he suggests stopping at Monte Cristo, knowing from the Abbé\'s description that it is usually uninhabited. During a hunting expedition on the island, Dantès pretends to injure himself to have an excuse to be left behind alone while the ship goes for additional supplies. Once alone, he uses the Abbé\'s detailed instructions to locate the hiding place of the Spada treasure - in a cave marked by specific rock formations. He finds the treasure exactly where the Abbé said it would be: a cache of gold coins, precious gems, jewelry, and valuable objects beyond imagination.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            doc.setFont(undefined, 'bold');
+            doc.setFontSize(12);
+            doc.text('Securing the Treasure:', 20, y);
+            y += 7;
+            doc.setFont(undefined, 'normal');
+            doc.setFontSize(11);
+
+            content = 'When the smugglers return, Dantès rejoins them without revealing his discovery. He continues working with them while secretly planning how to return to Monte Cristo and claim the treasure permanently. Eventually, he arranges to buy the island itself and claim the treasure legitimately as its owner. With the wealth secured, he begins his transformation from escaped prisoner Edmond Dantès into the mysterious and powerful Count of Monte Cristo.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            content = 'The escape plan demonstrates Dantès\' remarkable qualities: his courage in taking enormous risks, his quick thinking in adapting to unexpected circumstances, his physical strength and swimming ability that save his life, his patience in not immediately revealing his knowledge of the treasure, and his careful planning in positioning himself to claim the treasure safely. The journey from prisoner to count is as much a test of character and capability as it is a physical escape. It proves that Dantès has the qualities necessary to execute his future plans for revenge against those who destroyed his life.';
+            height = wrapText(doc, content, 20, y, 170, 6);
+            y += height + 7;
+
+            addFooter(doc, doc.internal.getNumberOfPages());
+            doc.save('Count_of_Monte_Cristo_Essay_Questions.pdf');
+        }
